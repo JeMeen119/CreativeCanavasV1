@@ -1,105 +1,92 @@
 import { Navbar } from "@/components/Navbar";
-import { ArrowLeft, Award, ExternalLink } from "lucide-react";
+import { ArrowLeft, Award, ExternalLink, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const schemes = [
-  {
-    name: "Ayushman Bharat",
-    description: "Health Insurance Scheme providing coverage up to ₹5 lakhs per family per year for secondary and tertiary hospitalization.",
-    category: "Health Care",
-    categoryColor: "text-danger bg-danger/10",
-    eligibility: "Families identified based on deprivation criteria in SECC database",
-    link: "#",
-  },
-  {
-    name: "Startup India",
-    description: "Initiative to catalyze startup culture and build a strong ecosystem for nurturing innovation and startups in the country.",
-    category: "Business",
-    categoryColor: "text-primary bg-primary/10",
-    eligibility: "Startups recognized by DPIIT with innovative products/services",
-    link: "#",
-  },
-  {
-    name: "PM Kisan Samman Nidhi",
-    description: "Income support of ₹6,000 per year in three equal installments to small and marginal farmer families.",
-    category: "Agriculture",
-    categoryColor: "text-success bg-success/10",
-    eligibility: "Small and marginal farmers with landholding up to 2 hectares",
-    link: "#",
-  },
-  {
-    name: "Digital India",
-    description: "Umbrella programme to transform India into a digitally empowered society and knowledge economy.",
-    category: "Technology",
-    categoryColor: "text-primary bg-primary/10",
-    eligibility: "Open to all citizens and businesses",
-    link: "#",
-  },
-  {
-    name: "Pradhan Mantri Awas Yojana",
-    description: "Housing for All initiative providing affordable housing to urban and rural poor.",
-    category: "Housing",
-    categoryColor: "text-muted-foreground bg-muted",
-    eligibility: "EWS, LIG, MIG families without pucca house",
-    link: "#",
-  },
-  {
-    name: "Skill India",
-    description: "National initiative to train over 40 crore people in different skills by 2022.",
-    category: "Education",
-    categoryColor: "text-primary bg-primary/10",
-    eligibility: "Youth aged 15-35 years across all states",
-    link: "#",
-  },
+  { name: "Ayushman Bharat", description: "Health insurance up to ₹5 lakhs per family.", category: "HEALTH CARE", link: "#" },
+  { name: "Startup India", description: "Catalyze startup culture.", category: "BUSINESS", link: "#" },
+  { name: "PM Kisan Samman Nidhi", description: "₹6,000/year to farmers.", category: "AGRICULTURE", link: "#" },
+  { name: "Digital India", description: "Digital empowerment program.", category: "TECHNOLOGY", link: "#" },
+  { name: "Pradhan Mantri Awas Yojana", description: "Housing for all.", category: "HOUSING", link: "#" },
+  { name: "Skill India", description: "Train 40 crore people.", category: "EDUCATION", link: "#" },
 ];
 
-const GovSchemes = () => {
+export default function GovSchemes() {
+  const [selectedScheme, setSelectedScheme] = useState(null);
+  const [showSummary, setShowSummary] = useState(false);
+
+  const aiSummary = "AI stub: This scheme provides comprehensive health coverage for low-income families, covering hospitalization costs up to ₹5 lakhs annually. Eligibility based on SECC database criteria.";
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#19181A] text-[#DDDAE5] font-['Roboto']">
       <Navbar />
-      
-      <main className="pt-24 px-6 pb-8">
-        <div className="max-w-5xl mx-auto">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-8">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-          
-          <div className="flex items-center gap-3 mb-6">
-            <Award className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-heading font-bold text-primary">Government Schemes</h1>
-          </div>
-          
-          <p className="text-muted-foreground mb-8 max-w-2xl">
-            Explore various government schemes and initiatives designed to support citizens across different sectors.
-          </p>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {schemes.map((scheme) => (
-              <div key={scheme.name} className="bg-card rounded-xl border border-border p-6 hover:border-primary/50 transition-colors">
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-heading font-semibold text-lg text-foreground">{scheme.name}</h3>
-                  <span className={`text-xs px-2 py-1 rounded ${scheme.categoryColor}`}>
-                    {scheme.category}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-4">{scheme.description}</p>
-                <div className="mb-4">
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-medium text-foreground">Eligibility:</span> {scheme.eligibility}
-                  </p>
-                </div>
-                <Button variant="outline" size="sm" className="gap-2 border-border text-foreground hover:bg-muted">
-                  Learn More <ExternalLink className="h-3 w-3" />
-                </Button>
-              </div>
-            ))}
-          </div>
+      <div className="max-w-4xl mx-auto p-8">
+        <Link to="/" className="flex items-center gap-2 text-[#F2CB55] mb-8 font-['Poppins']">
+          <ArrowLeft size={20} /> Back
+        </Link>
+        <h1 className="text-4xl font-['Poppins'] mb-12 text-[#F2CB55]">Government Schemes</h1>
+        <div className="grid md:grid-cols-2 gap-6">
+          {schemes.map((scheme) => (
+            <SchemeCard key={scheme.name} scheme={scheme} onLearnMore={() => setSelectedScheme(scheme)} />
+          ))}
         </div>
-      </main>
+      </div>
+
+      {selectedScheme && (
+        <SchemePopup 
+          scheme={selectedScheme} 
+          onClose={() => setSelectedScheme(null)}
+          onSummary={() => setShowSummary(!showSummary)}
+          summary={aiSummary}
+        />
+      )}
     </div>
   );
-};
+}
 
-export default GovSchemes;
+function SchemeCard({ scheme, onLearnMore }) {
+  return (
+    <div className="bg-[#252426] p-8 rounded-2xl hover:bg-[#19181A] transition-all">
+      <span className="inline-block px-4 py-2 bg-[#F2CB55]/10 text-[#F2CB55] rounded-xl font-['Poppins'] mb-4">
+        {scheme.category}
+      </span>
+      <h3 className="text-2xl font-['Poppins'] mb-4">{scheme.name}</h3>
+      <p className="mb-6">{scheme.description}</p>
+      <Button onClick={onLearnMore} className="bg-[#F2CB55] text-[#19181A] hover:bg-[#DDDAE5]">
+        Learn More <ExternalLink className="ml-2 w-4 h-4" />
+      </Button>
+    </div>
+  );
+}
+
+function SchemePopup({ scheme, onClose, onSummary, summary }) {
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-[#252426] max-w-2xl max-h-[80vh] overflow-y-auto rounded-3xl p-8">
+        <div className="flex justify-between items-start mb-6">
+          <h2 className="text-3xl font-['Poppins'] text-[#F2CB55]">{scheme.name}</h2>
+          <button onClick={onClose} className="text-[#DDDAE5] hover:text-[#F2CB55] text-2xl">×</button>
+        </div>
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <span className="text-[#F2CB55] font-['Poppins']">{scheme.category}</span>
+            <p className="text-lg">{scheme.description}</p>
+          </div>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={onSummary} className="border-[#F2CB55] text-[#F2CB55]">
+              <MessageSquare className="w-4 h-4 mr-2" /> Short AI Summary
+            </Button>
+          </div>
+          {showSummary && (
+            <div className="bg-[#19181A]/50 p-6 rounded-xl">
+              <h4 className="font-['Poppins'] mb-3 text-[#F2CB55]">AI Summary:</h4>
+              <p>{summary}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
