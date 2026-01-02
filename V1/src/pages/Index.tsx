@@ -1,3 +1,9 @@
+import { Navbar } from "@/components/Navbar";
+import { SearchBox } from "@/components/SearchBox";
+import { Sidebar } from "@/components/Sidebar";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";  // ← ADD THIS
+import { Newspaper, Award, Globe } from "lucide-react";
+
 import { useState, useEffect, useRef } from 'react';
 import { MicButton } from '@/components/MicButton';
 import { SourcesDropdown } from '@/components/SourcesDropdown';
