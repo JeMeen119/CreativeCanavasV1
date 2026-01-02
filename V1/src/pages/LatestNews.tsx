@@ -1,109 +1,97 @@
 import { Navbar } from "@/components/Navbar";
-import { ArrowLeft, Newspaper, ExternalLink, Clock } from "lucide-react";
+import { ArrowLeft, Newspaper, ExternalLink, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 const newsItems = [
-  {
-    title: "RBI announces new monetary policy with focus on inflation control",
-    description: "The Reserve Bank of India has unveiled its latest monetary policy, keeping repo rates unchanged while emphasizing measures to control inflation.",
-    source: "Economic Times",
-    time: "2h ago",
-    category: "Economy",
-    categoryColor: "text-primary bg-primary/10",
-  },
-  {
-    title: "Tech stocks rally amid global market recovery",
-    description: "Major technology stocks witnessed significant gains as global markets showed signs of recovery following positive economic indicators.",
-    source: "Business Standard",
-    time: "4h ago",
-    category: "Markets",
-    categoryColor: "text-success bg-success/10",
-  },
-  {
-    title: "Government launches new infrastructure development program",
-    description: "A comprehensive infrastructure development initiative worth ₹10 lakh crore has been announced to boost connectivity across the nation.",
-    source: "The Hindu",
-    time: "5h ago",
-    category: "Infrastructure",
-    categoryColor: "text-muted-foreground bg-muted",
-  },
-  {
-    title: "India's GDP growth exceeds expectations in Q3",
-    description: "The latest quarterly figures show India's economy growing at 7.6%, surpassing analyst predictions and cementing its position as a fast-growing economy.",
-    source: "Mint",
-    time: "6h ago",
-    category: "Economy",
-    categoryColor: "text-primary bg-primary/10",
-  },
-  {
-    title: "New education policy implementation gains momentum",
-    description: "States across India are accelerating the implementation of the National Education Policy with focus on skill development and digital learning.",
-    source: "Indian Express",
-    time: "8h ago",
-    category: "Education",
-    categoryColor: "text-primary bg-primary/10",
-  },
-  {
-    title: "Renewable energy investments surge to record levels",
-    description: "India attracts unprecedented investments in solar and wind energy projects as the country pushes towards its clean energy targets.",
-    source: "Reuters",
-    time: "10h ago",
-    category: "Energy",
-    categoryColor: "text-success bg-success/10",
-  },
+  { title: "RBI announces new monetary policy", description: "Repo rates unchanged, inflation focus.", category: "ECONOMY", source: "Economic Times" },
+  { title: "Tech stocks rally", description: "Global market recovery signals.", category: "MARKETS", source: "Business Standard" },
+  { title: "₹10 lakh crore infra program", description: "Nationwide connectivity boost.", category: "INFRASTRUCTURE", source: "The Hindu" },
+  { title: "India GDP 7.6% growth", description: "Exceeds analyst predictions.", category: "ECONOMY", source: "Mint" },
+  { title: "NEP implementation accelerates", description: "Skill development focus.", category: "EDUCATION", source: "Indian Express" },
+  { title: "Renewable energy investments surge", description: "Solar and wind projects.", category: "ENERGY", source: "Reuters" },
 ];
 
-const LatestNews = () => {
+export default function LatestNews() {
+  const [selectedNews, setSelectedNews] = useState(null);
+  const [showSummary, setShowSummary] = useState(false);
+
+  const aiSummary = "AI stub: RBI maintains repo rate at 6.5% while introducing targeted liquidity measures to control inflation without stifling growth. Focus on balancing economic recovery with price stability.";
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#19181A] text-[#DDDAE5] font-['Roboto']">
       <Navbar />
-      
-      <main className="pt-24 px-6 pb-8">
-        <div className="max-w-5xl mx-auto">
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary mb-8">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-          
-          <div className="flex items-center gap-3 mb-6">
-            <Newspaper className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-heading font-bold text-primary">Latest News</h1>
-          </div>
-          
-          <p className="text-muted-foreground mb-8 max-w-2xl">
-            Stay updated with the latest news from trusted sources across economy, markets, and more.
-          </p>
-          
-          <div className="space-y-4">
-            {newsItems.map((item, index) => (
-              <article key={index} className="bg-card rounded-xl border border-border p-6 hover:border-primary/50 transition-colors">
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <h3 className="font-heading font-semibold text-lg text-foreground flex-1">{item.title}</h3>
-                  <span className={`text-xs px-2 py-1 rounded whitespace-nowrap ${item.categoryColor}`}>
-                    {item.category}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-4">{item.description}</p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="font-medium">{item.source}</span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-3 w-3" />
-                      {item.time}
-                    </span>
-                  </div>
-                  <Button variant="ghost" size="sm" className="gap-2 text-primary hover:text-primary hover:bg-primary/10">
-                    Read Full Article <ExternalLink className="h-3 w-3" />
-                  </Button>
-                </div>
-              </article>
-            ))}
-          </div>
+      <div className="max-w-4xl mx-auto p-8">
+        <Link to="/" className="flex items-center gap-2 text-[#F2CB55] mb-8 font-['Poppins']">
+          <ArrowLeft size={20} /> Back
+        </Link>
+        <h1 className="text-4xl font-['Poppins'] mb-12 text-[#F2CB55]">Latest News</h1>
+        <div className="space-y-6">
+          {newsItems.map((item) => (
+            <NewsCard key={item.title} item={item} onReadMore={() => setSelectedNews(item)} />
+          ))}
         </div>
-      </main>
+      </div>
+
+      {selectedNews && (
+        <NewsPopup 
+          item={selectedNews} 
+          onClose={() => setSelectedNews(null)}
+          onSummary={() => setShowSummary(!showSummary)}
+          summary={aiSummary}
+        />
+      )}
     </div>
   );
-};
+}
 
-export default LatestNews;
+function NewsCard({ item, onReadMore }) {
+  return (
+    <div className="bg-[#252426] p-8 rounded-2xl hover:bg-[#19181A] transition-all group">
+      <span className="inline-block px-4 py-2 bg-[#F2CB55]/10 text-[#F2CB55] rounded-xl font-['Poppins'] mb-4">
+        {item.category}
+      </span>
+      <h3 className="text-2xl font-['Poppins'] mb-4 group-hover:text-[#F2CB55] transition-colors">{item.title}</h3>
+      <p className="mb-6">{item.description}</p>
+      <div className="flex items-center justify-between">
+        <span className="text-sm opacity-75">{item.source}</span>
+        <Button onClick={onReadMore} size="sm" className="bg-[#F2CB55] text-[#19181A]">
+          Read Full <ExternalLink className="ml-2 w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function NewsPopup({ item, onClose, onSummary, summary }) {
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-[#252426] max-w-2xl max-h-[80vh] overflow-y-auto rounded-3xl p-8">
+        <div className="flex justify-between items-start mb-6">
+          <div>
+            <span className="text-[#F2CB55] font-['Poppins'] mb-2 block">{item.category}</span>
+            <h2 className="text-3xl font-['Poppins']">{item.title}</h2>
+          </div>
+          <button onClick={onClose} className="text-[#DDDAE5] hover:text-[#F2CB55] text-2xl">×</button>
+        </div>
+        <div className="space-y-6">
+          <div className="prose prose-invert max-w-none">
+            <p className="text-lg leading-relaxed">{item.description} [Full article stub content would go here...]</p>
+          </div>
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={onSummary} className="border-[#F2CB55] text-[#F2CB55]">
+              <MessageSquare className="w-4 h-4 mr-2" /> Short AI Summary
+            </Button>
+          </div>
+          {showSummary && (
+            <div className="bg-[#19181A]/50 p-6 rounded-xl">
+              <h4 className="font-['Poppins'] mb-3 text-[#F2CB55]">AI Summary:</h4>
+              <p>{summary}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
