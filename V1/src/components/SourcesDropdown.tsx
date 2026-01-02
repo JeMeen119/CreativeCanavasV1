@@ -1,54 +1,54 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Globe, ChevronDown, GraduationCap, Building2, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { ChevronDown, Radio } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from '@/hooks/use-toast';
 
 const sources = [
-  { id: "web", label: "Web", icon: Globe },
-  { id: "academics", label: "Academics", icon: GraduationCap },
-  { id: "government", label: "Government Website", icon: Building2 },
-  { id: "more", label: "More Sources", icon: MoreHorizontal },
+  { value: 'newsapi', label: 'News API' },
+  { value: 'govapi', label: 'Gov Schemes' },
+  { value: 'localnews', label: 'Local News' },
+  { value: 'social', label: 'Social Media' },
+  { value: 'all', label: 'All Sources' },
 ];
 
-interface SourcesDropdownProps {
-  onSelect?: (source: string) => void;
-}
-
-export function SourcesDropdown({ onSelect }: SourcesDropdownProps) {
-  const [selected, setSelected] = useState("web");
-
-  const handleSelect = (sourceId: string) => {
-    setSelected(sourceId);
-    onSelect?.(sourceId);
-  };
-
-  const selectedSource = sources.find(s => s.id === selected);
+export function SourcesDropdown() {
+  const [selectedSource, setSelectedSource] = useState('all');
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="text-muted-foreground hover:bg-primary hover:text-background gap-2">
-          <Globe className="h-4 w-4" />
-          Sources
-          <ChevronDown className="h-3 w-3" />
+        <Button variant="ghost" size="icon" className="h-9 w-9">
+          <Radio className="h-4 w-4" />
+          <ChevronDown className="h-4 w-4 ml-1" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="bg-card border-border min-w-[180px]">
-        {sources.map((source) => (
-          <DropdownMenuItem
-            key={source.id}
-            onClick={() => handleSelect(source.id)}
-            className={`cursor-pointer gap-2 ${selected === source.id ? 'bg-muted text-primary' : 'text-foreground hover:bg-muted'}`}
-          >
-            <source.icon className="h-4 w-4" />
-            {source.label}
-          </DropdownMenuItem>
-        ))}
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>Select Source</DropdownMenuLabel>
+        <DropdownMenuRadioGroup value={selectedSource} onValueChange={(value) => {
+          setSelectedSource(value);
+          toast({
+            title: 'Source switched',
+            description: `Now using ${sources.find(s => s.value === value)?.label}`,
+          });
+        }}>
+          {sources.map((source) => (
+            <Button 
+              key={source.value} 
+              variant={selectedSource === source.value ? 'default' : 'ghost'}
+              className="justify-start w-full h-10 px-2 py-1.5"
+              value={source.value}
+            >
+              {source.label}
+            </Button>
+          ))}
+        </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );
