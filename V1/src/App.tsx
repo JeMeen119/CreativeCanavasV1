@@ -22,6 +22,15 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/gov-schemes" element={<GovSchemes />} />
           <Route path="/latest-news" element={<LatestNews />} />
+          // Add these routes
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/personalization" element={<Personalization />} />
+          <Route path="/storage" element={<Storage />} />
+          <Route path="/notifications" element={<Notifications />} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
