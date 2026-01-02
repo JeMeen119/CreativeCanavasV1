@@ -8,6 +8,14 @@ import About from "./pages/About";
 import GovSchemes from "./pages/GovSchemes";
 import LatestNews from "./pages/LatestNews";
 import NotFound from "./pages/NotFound";
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
+import Account from './pages/Account';
+import Personalization from './pages/Personalization';
+import Storage from './pages/Storage';
+import Notifications from './pages/Notifications';
+
 
 const queryClient = new QueryClient();
 
@@ -22,7 +30,6 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/gov-schemes" element={<GovSchemes />} />
           <Route path="/latest-news" element={<LatestNews />} />
-          // Add these routes
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -30,10 +37,9 @@ const App = () => (
           <Route path="/personalization" element={<Personalization />} />
           <Route path="/storage" element={<Storage />} />
           <Route path="/notifications" element={<Notifications />} />
-
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
