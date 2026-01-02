@@ -1,31 +1,52 @@
 import { Navbar } from "@/components/Navbar";
-import { SearchBox } from "@/components/SearchBox";
-import { Sidebar } from "@/components/Sidebar";
+import { Search, Newspaper, Award, Globe, ToggleLeft, ToggleRight } from "lucide-react";
+import { useState } from "react";
 
-const Index = () => {
+const sources = [
+  { name: "News", icon: Newspaper, active: true },
+  { name: "Gov Schemes", icon: Award, active: false },
+  { name: "Global", icon: Globe, active: false }
+];
+
+export default function Index() {
+  const [activeSource, setActiveSource] = useState("News");
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#19181A] text-[#DDDAE5] font-['Roboto']">
       <Navbar />
-      
-      <main className="pt-24 px-6 pb-8">
-        <div className="max-w-7xl mx-auto flex gap-8">
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col items-center justify-start pt-16">
-            <h1 className="text-4xl md:text-5xl font-heading font-bold text-primary mb-4 text-center">
-              What do you want to know?
-            </h1>
-            <p className="text-muted-foreground mb-8 text-center">
-              Search with AI-powered intelligence
-            </p>
-            <SearchBox />
-          </div>
-          
-          {/* Sidebar */}
-          <Sidebar />
+      <div className="max-w-6xl mx-auto p-8">
+        <h1 className="text-5xl font-['Poppins'] mb-8 text-[#F2CB55]">Search Everything</h1>
+        <div className="flex gap-4 mb-12">
+          {sources.map((source) => (
+            <ToggleButton
+              key={source.name}
+              source={source}
+              active={activeSource === source.name}
+              onToggle={() => setActiveSource(source.name)}
+            />
+          ))}
         </div>
-      </main>
+        <div className="search-box p-8 bg-[#252426] rounded-2xl">
+          <Search className="w-12 h-12 text-[#F2CB55] mb-4" />
+          <input type="text" placeholder="Ask anything..." className="w-full p-4 bg-transparent text-2xl border-none outline-none" />
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default Index;
+function ToggleButton({ source, active, onToggle }) {
+  return (
+    <button
+      onClick={onToggle}
+      className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-['Poppins'] ${
+        active 
+          ? "bg-[#F2CB55] text-[#19181A]" 
+          : "bg-[#252426] hover:bg-[#19181A]"
+      }`}
+    >
+      <source.icon className="w-5 h-5" />
+      {source.name}
+    </button>
+  );
+}
