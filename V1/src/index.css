@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Using the provided color palette converted to HSL */
+    /* #19181A - Dark background */
+    --background: 280 5% 10%;
+    --foreground: 252 10% 90%;
+
+    /* #252426 - Card/secondary background */
+    --card: 270 3% 15%;
+    --card-foreground: 252 10% 90%;
+
+    --popover: 270 3% 15%;
+    --popover-foreground: 252 10% 90%;
+
+    /* #F2CB55 - Gold/Accent color */
+    --primary: 44 85% 64%;
+    --primary-foreground: 280 5% 10%;
+
+    --secondary: 270 3% 15%;
+    --secondary-foreground: 252 10% 90%;
+
+    /* #DDDAE5 - Light text/muted */
+    --muted: 270 3% 20%;
+    --muted-foreground: 252 14% 70%;
+
+    --accent: 44 85% 64%;
+    --accent-foreground: 280 5% 10%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 270 3% 22%;
+    --input: 270 3% 18%;
+    --ring: 44 85% 64%;
+
+    --radius: 0.75rem;
+
+    /* Success/Positive color for market */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Danger/Negative color for market */
+    --danger: 0 84% 60%;
+    --danger-foreground: 0 0% 100%;
+
+    --sidebar-background: 270 3% 15%;
+    --sidebar-foreground: 252 10% 90%;
+    --sidebar-primary: 44 85% 64%;
+    --sidebar-primary-foreground: 280 5% 10%;
+    --sidebar-accent: 270 3% 20%;
+    --sidebar-accent-foreground: 252 10% 90%;
+    --sidebar-border: 270 3% 22%;
+    --sidebar-ring: 44 85% 64%;
+  }
+
+  .dark {
+    --background: 280 5% 10%;
+    --foreground: 252 10% 90%;
+    --card: 270 3% 15%;
+    --card-foreground: 252 10% 90%;
+    --popover: 270 3% 15%;
+    --popover-foreground: 252 10% 90%;
+    --primary: 44 85% 64%;
+    --primary-foreground: 280 5% 10%;
+    --secondary: 270 3% 15%;
+    --secondary-foreground: 252 10% 90%;
+    --muted: 270 3% 20%;
+    --muted-foreground: 252 14% 70%;
+    --accent: 44 85% 64%;
+    --accent-foreground: 280 5% 10%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 270 3% 22%;
+    --input: 270 3% 18%;
+    --ring: 44 85% 64%;
+    --sidebar-background: 270 3% 15%;
+    --sidebar-foreground: 252 10% 90%;
+    --sidebar-primary: 44 85% 64%;
+    --sidebar-primary-foreground: 280 5% 10%;
+    --sidebar-accent: 270 3% 20%;
+    --sidebar-accent-foreground: 252 10% 90%;
+    --sidebar-border: 270 3% 22%;
+    --sidebar-ring: 44 85% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
